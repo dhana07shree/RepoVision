@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { askQuestion } from '../api.js'
 
 function Chat({ repoName }) {
-  const [question, setQuestion] = useState("")
+  const [question, setQuestion] = useState('')
   const [messages, setMessages] = useState([])
   const [loading, setLoading] = useState(false)
 
@@ -12,9 +12,9 @@ function Chat({ repoName }) {
     try {
       const data = await askQuestion(repoName, question)
       setMessages([...messages, { question, answer: data.answer }])
-      setQuestion("")
+      setQuestion('')
     } catch (err) {
-      setMessages([...messages, { question, answer: "Error getting answer." }])
+      setMessages([...messages, { question, answer: 'Error getting answer.' }])
     }
     setLoading(false)
   }
@@ -22,30 +22,35 @@ function Chat({ repoName }) {
   if (!repoName) {
     return (
       <div className="card">
-        <p>Please upload a repository first.</p>
+        <p className="empty-state">Upload a repository first, then come back here.</p>
       </div>
     )
   }
 
   return (
     <div className="card">
-      <h2>Chat with Repository</h2>
+      {messages.length === 0 && (
+        <p className="empty-state" style={{ marginBottom: 14 }}>
+          No questions asked yet. Try something like "What does the auth flow look like?"
+        </p>
+      )}
 
       {messages.map((m, i) => (
         <div className="qa" key={i}>
-          <p><b>Q:</b> {m.question}</p>
-          <p><b>A:</b> {m.answer}</p>
+          <div className="q">{m.question}</div>
+          <div className="a">{m.answer}</div>
         </div>
       ))}
 
       <input
         type="text"
-        placeholder="Ask a question about the repository..."
+        placeholder="Ask a question about the repository…"
         value={question}
         onChange={(e) => setQuestion(e.target.value)}
+        onKeyDown={(e) => e.key === 'Enter' && handleAsk()}
       />
       <button onClick={handleAsk} disabled={loading}>
-        {loading ? "Asking..." : "Ask"}
+        {loading ? 'Thinking…' : 'Ask'}
       </button>
     </div>
   )

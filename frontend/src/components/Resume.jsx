@@ -11,7 +11,7 @@ function Resume({ repoName }) {
       const data = await getResume(repoName)
       setResume(data)
     } catch (err) {
-      alert("Could not generate resume.")
+      alert('Could not generate resume.')
     }
     setLoading(false)
   }
@@ -19,30 +19,39 @@ function Resume({ repoName }) {
   if (!repoName) {
     return (
       <div className="card">
-        <p>Please upload a repository first.</p>
+        <p className="empty-state">Upload a repository first, then come back here.</p>
       </div>
     )
   }
 
   return (
-    <div className="card">
-      <h2>Resume Builder</h2>
+    <div>
       <button onClick={handleGenerate} disabled={loading}>
-        {loading ? "Generating..." : "Generate Resume"}
+        {loading ? 'Generating…' : 'Generate Resume'}
       </button>
 
       {resume && (
-        <div>
+        <div className="card">
           <h3>{resume.project_title}</h3>
-          <p>{resume.project_description}</p>
-          <h4>Resume Points</h4>
-          <ul>
+          <p style={{ color: 'var(--text-muted)' }}>{resume.project_description}</p>
+
+          <div className="field-row" style={{ marginTop: 14 }}>
+            <span className="k">Resume Bullet Points</span>
+          </div>
+          <ul style={{ paddingLeft: 20, margin: '4px 0 14px 0' }}>
             {resume.resume_points.map((point, i) => (
-              <li key={i}>{point}</li>
+              <li key={i} style={{ marginBottom: 6 }}>{point}</li>
             ))}
           </ul>
-          <h4>Technologies</h4>
-          <p>{resume.technologies.join(", ")}</p>
+
+          <div className="field-row">
+            <span className="k">Technologies</span>
+            <div className="tag-list">
+              {resume.technologies.map((t) => (
+                <span className="tag" key={t}>{t}</span>
+              ))}
+            </div>
+          </div>
         </div>
       )}
     </div>

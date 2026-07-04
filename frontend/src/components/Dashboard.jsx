@@ -4,11 +4,11 @@ import { getDashboard } from '../api.js'
 function Dashboard({ repoName }) {
   const [dashboard, setDashboard] = useState(null)
   const [loading, setLoading] = useState(false)
-  const [error, setError] = useState("")
+  const [error, setError] = useState('')
 
   const loadDashboard = async () => {
     setLoading(true)
-    setError("")
+    setError('')
     try {
       const data = await getDashboard(repoName)
       if (data.detail) {
@@ -17,7 +17,7 @@ function Dashboard({ repoName }) {
         setDashboard(data)
       }
     } catch (err) {
-      setError("Something went wrong.")
+      setError('Something went wrong.')
     }
     setLoading(false)
   }
@@ -25,45 +25,118 @@ function Dashboard({ repoName }) {
   if (!repoName) {
     return (
       <div className="card">
-        <p>Please upload a repository first.</p>
+        <p className="empty-state">Upload a repository first, then come back here.</p>
       </div>
     )
   }
 
   return (
-    <div className="card">
-      <h2>Dashboard</h2>
+    <div>
       <button onClick={loadDashboard} disabled={loading}>
-        {loading ? "Loading..." : "Load Dashboard"}
+        {loading ? 'Loading…' : 'Load Dashboard'}
       </button>
 
-      {error && <p className="error">{error}</p>}
+      {error && (
+        <div className="error" style={{ marginTop: 14 }}>
+          {error}
+        </div>
+      )}
 
       {dashboard && (
-        <div>
-          <h3>Statistics</h3>
-          <ul>
-            <li>Files: {dashboard.statistics.files}</li>
-            <li>Documents: {dashboard.statistics.documents}</li>
-            <li>Chunks: {dashboard.statistics.chunks}</li>
-            <li>Languages Detected: {dashboard.statistics.languages_detected}</li>
-            <li>Frameworks Detected: {dashboard.statistics.frameworks_detected}</li>
-          </ul>
+        <>
+          <div className="card">
+            <h3>Statistics</h3>
+            <div className="stat-grid">
+              <div className="stat-box">
+                <div className="num">{dashboard.statistics.files}</div>
+                <div className="lbl">Files</div>
+              </div>
+              <div className="stat-box">
+                <div className="num">{dashboard.statistics.chunks}</div>
+                <div className="lbl">Chunks</div>
+              </div>
+              <div className="stat-box">
+                <div className="num">{dashboard.statistics.languages_detected}</div>
+                <div className="lbl">Languages</div>
+              </div>
+              <div className="stat-box">
+                <div className="num">{dashboard.statistics.frameworks_detected}</div>
+                <div className="lbl">Frameworks</div>
+              </div>
+            </div>
+          </div>
 
-          <h3>Analysis</h3>
-          <p><b>Project Title:</b> {dashboard.analysis.project_title}</p>
-          <p><b>Objective:</b> {dashboard.analysis.project_objective}</p>
-          <p><b>Languages:</b> {dashboard.analysis.programming_languages.join(", ")}</p>
-          <p><b>Frameworks:</b> {dashboard.analysis.frameworks.join(", ")}</p>
-          <p><b>Libraries:</b> {dashboard.analysis.libraries.join(", ")}</p>
-          <p><b>Major Features:</b> {dashboard.analysis.major_features.join(", ")}</p>
-          <p><b>Specialized Components:</b> {dashboard.analysis.specialized_components.join(", ")}</p>
-          <p><b>APIs:</b> {dashboard.analysis.apis.join(", ")}</p>
-          <p><b>Database:</b> {dashboard.analysis.database}</p>
-          <p><b>Authentication:</b> {dashboard.analysis.authentication}</p>
-          <p><b>Deployment:</b> {dashboard.analysis.deployment}</p>
-          <p><b>Architecture:</b> {dashboard.analysis.overall_architecture}</p>
-        </div>
+          <div className="card">
+            <h3>Analysis</h3>
+            <div className="field-row">
+              <span className="k">Project:</span>
+              {dashboard.analysis.project_title}
+            </div>
+            <div className="field-row">
+              <span className="k">Objective:</span>
+              {dashboard.analysis.project_objective}
+            </div>
+
+            <div className="field-row">
+              <span className="k">Languages</span>
+              <div className="tag-list">
+                {dashboard.analysis.programming_languages.map((t) => (
+                  <span className="tag" key={t}>{t}</span>
+                ))}
+              </div>
+            </div>
+
+            <div className="field-row">
+              <span className="k">Frameworks</span>
+              <div className="tag-list">
+                {dashboard.analysis.frameworks.map((t) => (
+                  <span className="tag" key={t}>{t}</span>
+                ))}
+              </div>
+            </div>
+
+            <div className="field-row">
+              <span className="k">Libraries</span>
+              <div className="tag-list">
+                {dashboard.analysis.libraries.map((t) => (
+                  <span className="tag" key={t}>{t}</span>
+                ))}
+              </div>
+            </div>
+
+            <div className="field-row">
+              <span className="k">APIs</span>
+              <div className="tag-list">
+                {dashboard.analysis.apis.map((t) => (
+                  <span className="tag" key={t}>{t}</span>
+                ))}
+              </div>
+            </div>
+
+            <div className="field-row">
+              <span className="k">Major Features</span>
+              <div className="tag-list">
+                {dashboard.analysis.major_features.map((t) => (
+                  <span className="tag" key={t}>{t}</span>
+                ))}
+              </div>
+            </div>
+
+            <div className="field-row">
+              <span className="k">Specialized Components</span>
+              <div className="tag-list">
+                {dashboard.analysis.specialized_components.map((t) => (
+                  <span className="tag" key={t}>{t}</span>
+                ))}
+              </div>
+            </div>
+
+            <div className="field-row"><span className="k">Database:</span>{dashboard.analysis.database}</div>
+            <div className="field-row"><span className="k">Authentication:</span>{dashboard.analysis.authentication}</div>
+            <div className="field-row"><span className="k">Deployment:</span>{dashboard.analysis.deployment}</div>
+            <div className="field-row"><span className="k">Architecture:</span>{dashboard.analysis.overall_architecture}</div>
+          </div>
+        </>
       )}
     </div>
   )

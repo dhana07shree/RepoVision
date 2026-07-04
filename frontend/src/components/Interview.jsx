@@ -1,11 +1,20 @@
 import { useState } from 'react'
 import { startInterview, answerInterviewQuestion, stopInterview } from '../api.js'
 
+function ScoreLine({ label, value }) {
+  return (
+    <div className="field-row">
+      <span className="k">{label}:</span>
+      {value}
+    </div>
+  )
+}
+
 function Interview({ repoName }) {
   const [numQuestions, setNumQuestions] = useState(3)
   const [sessionId, setSessionId] = useState(null)
   const [question, setQuestion] = useState(null)
-  const [answer, setAnswer] = useState("")
+  const [answer, setAnswer] = useState('')
   const [progress, setProgress] = useState(null)
   const [lastEvaluation, setLastEvaluation] = useState(null)
   const [report, setReport] = useState(null)
@@ -21,7 +30,7 @@ function Interview({ repoName }) {
       setQuestion(data.question)
       setProgress({ current: data.current_question, total: data.total_questions })
     } catch (err) {
-      alert("Could not start interview.")
+      alert('Could not start interview.')
     }
     setLoading(false)
   }
@@ -39,9 +48,9 @@ function Interview({ repoName }) {
         setQuestion(data.next_question)
         setProgress({ current: data.current_question, total: data.total_questions })
       }
-      setAnswer("")
+      setAnswer('')
     } catch (err) {
-      alert("Could not submit answer.")
+      alert('Could not submit answer.')
     }
     setLoading(false)
   }
@@ -54,7 +63,7 @@ function Interview({ repoName }) {
       setReport(data.report)
       setQuestion(null)
     } catch (err) {
-      alert("Could not stop interview.")
+      alert('Could not stop interview.')
     }
     setLoading(false)
   }
@@ -62,46 +71,50 @@ function Interview({ repoName }) {
   if (!repoName) {
     return (
       <div className="card">
-        <p>Please upload a repository first.</p>
+        <p className="empty-state">Upload a repository first, then come back here.</p>
       </div>
     )
   }
 
   return (
-    <div className="card">
-      <h2>Mock Interview</h2>
-
+    <div>
       {!sessionId && !report && (
-        <div>
-          <label>Number of Questions: </label>
+        <div className="card">
+          <label>Number of Questions</label>
           <input
             type="number"
             min="1"
             value={numQuestions}
             onChange={(e) => setNumQuestions(e.target.value)}
+            style={{ maxWidth: 120 }}
           />
-          <button onClick={handleStart} disabled={loading}>
-            {loading ? "Starting..." : "Start Interview"}
-          </button>
+          <div>
+            <button onClick={handleStart} disabled={loading}>
+              {loading ? 'Starting…' : 'Start Interview'}
+            </button>
+          </div>
         </div>
       )}
 
       {question && (
-        <div>
-          <p>Question {progress?.current} of {progress?.total}</p>
-          <p><b>Category:</b> {question.category} | <b>Difficulty:</b> {question.difficulty}</p>
-          <p><b>Q:</b> {question.question}</p>
+        <div className="card">
+          <p className="empty-state" style={{ marginBottom: 10 }}>
+            Question {progress?.current} of {progress?.total}
+          </p>
+          <span className="pill category">{question.category}</span>
+          <span className="pill difficulty">{question.difficulty}</span>
+          <p style={{ marginTop: 12, fontWeight: 600 }}>{question.question}</p>
 
           <textarea
             rows="4"
-            placeholder="Type your answer..."
+            placeholder="Type your answer…"
             value={answer}
             onChange={(e) => setAnswer(e.target.value)}
           />
           <button onClick={handleAnswer} disabled={loading}>
-            {loading ? "Submitting..." : "Submit Answer"}
+            {loading ? 'Submitting…' : 'Submit Answer'}
           </button>
-          <button onClick={handleStop} disabled={loading}>
+          <button className="secondary" onClick={handleStop} disabled={loading}>
             Stop Interview
           </button>
         </div>
@@ -110,30 +123,66 @@ function Interview({ repoName }) {
       {lastEvaluation && (
         <div className="card">
           <h3>Last Evaluation</h3>
-          <p>Overall Score: {lastEvaluation.overall_score}</p>
-          <p>Technical Accuracy: {lastEvaluation.technical_accuracy}</p>
-          <p>Communication: {lastEvaluation.communication}</p>
-          <p>Confidence: {lastEvaluation.confidence}</p>
-          <p>Completeness: {lastEvaluation.completeness}</p>
-          <p>Strengths: {lastEvaluation.strengths.join(", ")}</p>
-          <p>Weaknesses: {lastEvaluation.weaknesses.join(", ")}</p>
-          <p>Suggestions: {lastEvaluation.suggestions.join(", ")}</p>
+          <div className={`score-badge ${lastEvaluation.overall_score < 5 ? 'low' : ''}`}>
+            {lastEvaluation.overall_score}/10
+          </div>
+          <ScoreLine label="Technical Accuracy" value={lastEvaluation.technical_accuracy} />
+          <ScoreLine label="Communication" value={lastEvaluation.communication} />
+          <ScoreLine label="Confidence" value={lastEvaluation.confidence} />
+          <ScoreLine label="Completeness" value={lastEvaluation.completeness} />
+          <div className="field-row">
+            <span className="k">Strengths</span>
+            <div className="tag-list">
+              {lastEvaluation.strengths.map((s) => <span className="tag" key={s}>{s}</span>)}
+            </div>
+          </div>
+          <div className="field-row">
+            <span className="k">Weaknesses</span>
+            <div className="tag-list">
+              {lastEvaluation.weaknesses.map((s) => <span className="tag" key={s}>{s}</span>)}
+            </div>
+          </div>
+          <div className="field-row">
+            <span className="k">Suggestions</span>
+            <div className="tag-list">
+              {lastEvaluation.suggestions.map((s) => <span className="tag" key={s}>{s}</span>)}
+            </div>
+          </div>
         </div>
       )}
 
       {report && (
         <div className="card">
           <h3>Final Report</h3>
-          <p>Overall Score: {report.overall_score}</p>
-          <p>Technical Accuracy: {report.technical_accuracy}</p>
-          <p>Communication: {report.communication}</p>
-          <p>Confidence: {report.confidence}</p>
-          <p>Completeness: {report.completeness}</p>
-          <p>Strengths: {report.strengths.join(", ")}</p>
-          <p>Weaknesses: {report.weaknesses.join(", ")}</p>
-          <p>Improvements: {report.improvements.join(", ")}</p>
-          <p>Hiring Recommendation: {report.hiring_recommendation}</p>
-          <p>Final Feedback: {report.final_feedback}</p>
+          <div className={`score-badge ${report.overall_score < 5 ? 'low' : ''}`}>
+            {report.overall_score}/10
+          </div>
+          <ScoreLine label="Technical Accuracy" value={report.technical_accuracy} />
+          <ScoreLine label="Communication" value={report.communication} />
+          <ScoreLine label="Confidence" value={report.confidence} />
+          <ScoreLine label="Completeness" value={report.completeness} />
+          <ScoreLine label="Hiring Recommendation" value={report.hiring_recommendation} />
+          <div className="field-row">
+            <span className="k">Strengths</span>
+            <div className="tag-list">
+              {report.strengths.map((s) => <span className="tag" key={s}>{s}</span>)}
+            </div>
+          </div>
+          <div className="field-row">
+            <span className="k">Weaknesses</span>
+            <div className="tag-list">
+              {report.weaknesses.map((s) => <span className="tag" key={s}>{s}</span>)}
+            </div>
+          </div>
+          <div className="field-row">
+            <span className="k">Improvements</span>
+            <div className="tag-list">
+              {report.improvements.map((s) => <span className="tag" key={s}>{s}</span>)}
+            </div>
+          </div>
+          <div className="field-row" style={{ marginTop: 10 }}>
+            <span className="k">Final Feedback:</span> {report.final_feedback}
+          </div>
         </div>
       )}
     </div>

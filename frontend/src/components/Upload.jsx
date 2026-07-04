@@ -2,15 +2,15 @@ import { useState } from 'react'
 import { uploadRepository } from '../api.js'
 
 function Upload({ setRepoName }) {
-  const [githubUrl, setGithubUrl] = useState("")
+  const [githubUrl, setGithubUrl] = useState('')
   const [result, setResult] = useState(null)
   const [loading, setLoading] = useState(false)
-  const [error, setError] = useState("")
+  const [error, setError] = useState('')
 
   const handleUpload = async () => {
     if (!githubUrl) return
     setLoading(true)
-    setError("")
+    setError('')
     setResult(null)
     try {
       const data = await uploadRepository(githubUrl)
@@ -21,14 +21,14 @@ function Upload({ setRepoName }) {
         setRepoName(data.repository)
       }
     } catch (err) {
-      setError("Something went wrong. Is the backend running on port 8000?")
+      setError('Something went wrong. Is the backend running on port 8000?')
     }
     setLoading(false)
   }
 
   return (
     <div className="card">
-      <h2>Upload GitHub Repository</h2>
+      <label>GitHub Repository URL</label>
       <input
         type="text"
         placeholder="https://github.com/username/repo"
@@ -36,17 +36,31 @@ function Upload({ setRepoName }) {
         onChange={(e) => setGithubUrl(e.target.value)}
       />
       <button onClick={handleUpload} disabled={loading}>
-        {loading ? "Uploading..." : "Upload"}
+        {loading ? 'Indexing…' : 'Upload & Index'}
       </button>
 
-      {error && <p className="error">{error}</p>}
+      {error && (
+        <div className="error" style={{ marginTop: 14 }}>
+          {error}
+        </div>
+      )}
 
       {result && (
-        <div>
-          <p>Message: {result.message}</p>
-          <p>Repository: {result.repository}</p>
-          <p>Files: {result.files}</p>
-          <p>Chunks: {result.chunks}</p>
+        <div className="stat-grid" style={{ marginTop: 18 }}>
+          <div className="stat-box">
+            <div className="num">{result.files}</div>
+            <div className="lbl">Files</div>
+          </div>
+          <div className="stat-box">
+            <div className="num">{result.chunks}</div>
+            <div className="lbl">Chunks</div>
+          </div>
+          <div className="stat-box" style={{ gridColumn: 'span 2' }}>
+            <div className="lbl">Repository</div>
+            <div style={{ fontFamily: 'var(--font-mono)', fontSize: 14, marginTop: 2 }}>
+              {result.repository}
+            </div>
+          </div>
         </div>
       )}
     </div>

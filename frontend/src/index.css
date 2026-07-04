@@ -1,86 +1,425 @@
+/* ---------------------------------------------
+   Design tokens
+--------------------------------------------- */
+:root {
+  --bg: #f3f5f8;
+  --surface: #ffffff;
+  --sidebar-bg: #101b2d;
+  --sidebar-bg-active: #1a2c47;
+  --sidebar-text: #9fb0c9;
+  --sidebar-text-active: #ffffff;
+
+  --primary: #1f3a5f;
+  --accent: #c9962b;
+  --accent-soft: #fbf1dc;
+
+  --text: #1a1f2b;
+  --text-muted: #5b6472;
+  --border: #e2e5ea;
+
+  --success: #2f7d5c;
+  --success-soft: #e4f3ec;
+  --danger: #b3451d;
+  --danger-soft: #fbe9e2;
+
+  --font-display: "Space Grotesk", sans-serif;
+  --font-body: "Inter", sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
+
+  --radius: 10px;
+}
+
 * {
   box-sizing: border-box;
 }
 
+html,
+body,
+#root {
+  height: 100%;
+}
+
 body {
   margin: 0;
-  background: #f4f4f4;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
 }
 
-.app {
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 24px;
-  font-family: Arial, Helvetica, sans-serif;
-  color: #222;
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-display);
+  margin: 0 0 8px 0;
+  letter-spacing: -0.01em;
 }
 
-.repo-info {
-  color: #555;
-  margin-top: -8px;
+p {
+  line-height: 1.5;
 }
 
-.tabs {
+/* ---------------------------------------------
+   Layout: dark sidebar + light workspace
+--------------------------------------------- */
+.layout {
+  display: grid;
+  grid-template-columns: 250px 1fr;
+  min-height: 100vh;
+}
+
+.sidebar {
+  background: var(--sidebar-bg);
+  color: var(--sidebar-text);
+  padding: 28px 18px;
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
+}
+
+.brand {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 19px;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
   gap: 8px;
-  margin: 16px 0;
+  margin-bottom: 4px;
 }
 
-.tab {
-  padding: 8px 14px;
-  border: 1px solid #ccc;
-  background: #fff;
+.brand .dot {
+  color: var(--accent);
+}
+
+.brand-sub {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--sidebar-text);
+  opacity: 0.7;
+  margin-bottom: 22px;
+}
+
+.repo-badge {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #d8e2f0;
+  padding: 8px 10px;
+  border-radius: 8px;
+  margin-bottom: 24px;
+  word-break: break-all;
+}
+
+.repo-badge .label {
+  display: block;
+  color: var(--accent);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom: 3px;
+}
+
+.nav {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: transparent;
+  border: none;
+  color: var(--sidebar-text);
+  font-family: var(--font-mono);
+  font-size: 13.5px;
+  text-align: left;
+  padding: 10px 12px;
+  border-radius: 8px;
   cursor: pointer;
-  border-radius: 4px;
-  font-size: 14px;
+  border-left: 2px solid transparent;
 }
 
-.tab.active {
-  background: #333;
-  color: #fff;
-  border-color: #333;
+.nav-item:hover {
+  background: rgba(255, 255, 255, 0.05);
+  color: #ffffff;
+}
+
+.nav-item.active {
+  background: var(--sidebar-bg-active);
+  color: var(--sidebar-text-active);
+  border-left: 2px solid var(--accent);
+}
+
+.nav-item .index {
+  color: var(--accent);
+  font-size: 11px;
+}
+
+.sidebar-footer {
+  margin-top: auto;
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  color: var(--sidebar-text);
+  opacity: 0.5;
+  padding-top: 16px;
+}
+
+/* ---------------------------------------------
+   Main workspace
+--------------------------------------------- */
+.workspace {
+  padding: 40px 48px;
+  max-width: 880px;
+}
+
+.page-header {
+  margin-bottom: 22px;
+}
+
+.page-header p {
+  color: var(--text-muted);
+  margin-top: 4px;
+  font-size: 14.5px;
 }
 
 .card {
-  border: 1px solid #ddd;
-  background: #fff;
-  padding: 16px;
-  margin-top: 12px;
-  border-radius: 6px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 22px;
+  margin-top: 16px;
+}
+
+.card + .card {
+  margin-top: 18px;
+}
+
+.card h3 {
+  font-size: 15px;
+  color: var(--primary);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-bottom: 12px;
+}
+
+.empty-state {
+  color: var(--text-muted);
+  font-size: 14px;
+}
+
+/* ---------------------------------------------
+   Forms
+--------------------------------------------- */
+label {
+  font-size: 13px;
+  color: var(--text-muted);
+  display: block;
+  margin-bottom: 4px;
 }
 
 input,
 textarea {
   width: 100%;
-  padding: 8px;
-  margin: 6px 0;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  font-family: inherit;
+  padding: 10px 12px;
+  margin: 4px 0 12px 0;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-family: var(--font-body);
+  font-size: 14px;
+  background: #fbfcfd;
+  color: var(--text);
+}
+
+input:focus,
+textarea:focus {
+  outline: none;
+  border-color: var(--primary);
+  background: #ffffff;
 }
 
 button {
-  padding: 8px 16px;
-  margin: 6px 6px 6px 0;
+  padding: 10px 18px;
+  margin: 0 8px 0 0;
   cursor: pointer;
-  border: 1px solid #333;
-  background: #333;
-  color: #fff;
-  border-radius: 4px;
+  border: none;
+  background: var(--primary);
+  color: #ffffff;
+  border-radius: 8px;
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 13.5px;
+}
+
+button:hover:not(:disabled) {
+  background: #16304f;
 }
 
 button:disabled {
-  opacity: 0.6;
+  opacity: 0.5;
   cursor: not-allowed;
 }
 
-.qa {
-  border-bottom: 1px solid #eee;
-  padding-bottom: 8px;
-  margin-bottom: 8px;
+button.secondary {
+  background: transparent;
+  color: var(--primary);
+  border: 1px solid var(--border);
+}
+
+button.secondary:hover:not(:disabled) {
+  background: #f0f2f5;
+}
+
+/* ---------------------------------------------
+   Stats / badges / pills
+--------------------------------------------- */
+.stat-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 12px;
+  margin-bottom: 4px;
+}
+
+.stat-box {
+  background: #f7f8fa;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 12px 14px;
+}
+
+.stat-box .num {
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--primary);
+}
+
+.stat-box .lbl {
+  font-size: 11.5px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.field-row {
+  margin-bottom: 10px;
+  font-size: 14px;
+}
+
+.field-row .k {
+  color: var(--text-muted);
+  font-weight: 600;
+  margin-right: 4px;
+}
+
+.tag-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 2px;
+}
+
+.tag {
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  background: var(--accent-soft);
+  color: #7a5c14;
+  padding: 3px 9px;
+  border-radius: 999px;
+  border: 1px solid #eddfb8;
+}
+
+.pill {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  padding: 3px 10px;
+  border-radius: 999px;
+  margin-right: 6px;
+}
+
+.pill.category {
+  background: #eaf0f8;
+  color: var(--primary);
+}
+
+.pill.difficulty {
+  background: var(--accent-soft);
+  color: #7a5c14;
+}
+
+.score-badge {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 26px;
+  color: var(--success);
+}
+
+.score-badge.low {
+  color: var(--danger);
 }
 
 .error {
-  color: #c0392b;
+  color: var(--danger);
+  background: var(--danger-soft);
+  border: 1px solid #f0c3ab;
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 13.5px;
+}
+
+/* ---------------------------------------------
+   Chat
+--------------------------------------------- */
+.qa {
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 12px;
+  margin-bottom: 12px;
+}
+
+.qa:last-child {
+  border-bottom: none;
+}
+
+.qa .q {
+  font-weight: 600;
+  color: var(--primary);
+  margin-bottom: 4px;
+}
+
+.qa .a {
+  color: var(--text);
+}
+
+/* ---------------------------------------------
+   Responsive
+--------------------------------------------- */
+@media (max-width: 780px) {
+  .layout {
+    grid-template-columns: 1fr;
+  }
+  .sidebar {
+    flex-direction: row;
+    align-items: center;
+    flex-wrap: wrap;
+    padding: 16px;
+  }
+  .brand-sub,
+  .sidebar-footer {
+    display: none;
+  }
+  .repo-badge {
+    margin: 0 0 0 auto;
+  }
+  .nav {
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 100%;
+    margin-top: 10px;
+  }
+  .workspace {
+    padding: 24px 20px;
+  }
 }
