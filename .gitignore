@@ -1,0 +1,13 @@
+venv/
+
+__pycache__/
+
+node_modules/
+
+.env
+
+chroma_db/
+
+*.pyc
+
+repositories/

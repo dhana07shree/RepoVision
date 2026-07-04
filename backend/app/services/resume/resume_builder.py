@@ -1,0 +1,44 @@
+import json
+from langchain_core.prompts import ChatPromptTemplate
+
+from app.prompts.resume_prompt import RESUME_PROMPT
+from app.core.llm import llm
+
+from app.schemas.resume import ResumeResponse
+
+
+prompt = ChatPromptTemplate.from_template(
+    RESUME_PROMPT
+)
+chain = prompt | llm
+
+def build_resume(repository):
+
+    summary_text = repository.summary_as_text()
+
+    context = repository.file_summaries[:12000]
+
+    context = repository.file_summaries[:12000]
+
+    response = chain.invoke(
+    {
+    "summary": summary_text,
+    "context": context
+    }
+    )
+
+    try:
+     print("=" * 80)
+     print(repr(response.content))
+     print("=" * 80)
+     data = json.loads(response.content)
+
+     resume = ResumeResponse.model_validate(data)
+
+     return resume
+
+    except Exception as e:
+
+     raise ValueError(
+        f"Failed to parse LLM response:\n{response.content}"
+     ) from e

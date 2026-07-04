@@ -1,0 +1,46 @@
+
+IGNORE_DIRECTORIES = {
+    ".git",
+    "__pycache__",
+    "node_modules",
+    "venv",
+    ".venv",
+    ".idea",
+    ".vscode",
+    "dist",
+    "build",
+    ".next",
+    "coverage",
+    ".pytest_cache"
+}
+
+SUPPORTED_EXTENSIONS = {
+    ".py",
+    ".js",
+    ".ts",
+    ".tsx",
+    ".jsx",
+    ".java",
+    ".cpp",
+    ".c",
+    ".cs",
+    ".go",
+    ".rs",
+    ".php",
+    ".html",
+    ".css",
+    ".md",
+    ".txt",
+    ".json",
+    ".yaml",
+    ".yml",
+    ".toml",
+    ".xml",
+    ".sql",
+    ".env.example",
+    ".ini",
+    ".cfg",
+    ".sh",
+    ".bat"
+}
+
