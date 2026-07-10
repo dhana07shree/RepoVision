@@ -62,18 +62,19 @@ def upload_repository(request: RepositoryRequest):
         repository = build_repository(path)
 
         print("STEP 3")
-        repo_name = request.github_url.split("/")[-1]
+        repo_name = request.github_url.rstrip("/").split("/")[-1]
 
         save_repository(repo_name, repository)
 
         print("STEP 4")
 
         return {
-            "message": "Repository uploaded successfully",
-            "repository": repo_name,
-            "files": len(repository.documents),
-            "chunks": len(repository.chunks)
-        }
+    "message": "Repository uploaded successfully",
+    "repository": repo_name,
+    "files": len(repository.documents),
+    "chunks": len(repository.chunks),
+    "interview_domains": repository.interview_domains
+}
 
     except Exception as e:
 

@@ -11,10 +11,10 @@ def create_retriever(chunks,repository_name):
 
         search_kwargs={
 
-            "k": 5,
+            "k": 8,
 
-            "fetch_k": 12,
-            "lambda_mult": 0.7
+            "fetch_k": 20,
+            "lambda_mult": 0.5
 
         }
 

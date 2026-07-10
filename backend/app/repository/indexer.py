@@ -9,6 +9,8 @@ from app.models.repository_model import RepositoryKnowledgeBase
 from app.services.repository_analysis.summary_service import generate_summary
 from app.services.repository_analysis.project_summary import summarize_repository
 
+from app.core.interview_domains import build_interview_domains
+
 from pathlib import Path
 
 
@@ -30,12 +32,13 @@ def build_repository(repository_path: str):
     file_summaries = summarize_repository(
     documents
     )
-    repository_name = Path(repository_path).name
-    retriever = create_retriever(chunks, repository_name)
-
+    
     summary = generate_summary(
       file_summaries
     )
+    repository_name = Path(repository_path).name
+    retriever = create_retriever(chunks, repository_name)
+
 
     repository = RepositoryKnowledgeBase(
 
@@ -50,7 +53,11 @@ def build_repository(repository_path: str):
     summary=summary
 
     )
-
+    repository.interview_domains = build_interview_domains(repository)
+    repository.interview_cache = {
+    domain: None
+    for domain in repository.interview_domains
+}
     
 
     return repository

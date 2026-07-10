@@ -1,4 +1,4 @@
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from typing import List, Any
 
 from langchain_core.documents import Document
@@ -18,6 +18,10 @@ class RepositoryKnowledgeBase:
     file_summaries: str
     
     summary: RepositorySummary
+    
+    interview_cache: dict[str, Any] = field(default_factory=dict)
+
+    interview_domains: list[str] = field(default_factory=list)
 
     def summary_as_text(self):
 
