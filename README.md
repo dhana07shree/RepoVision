@@ -1,185 +1,134 @@
-# 🚀 RepoPrep AI
+# RepoVision – AI-Powered GitHub Repository Coach
 
-> **An AI Interview Coach that understands your GitHub projects better than you do.**
+RepoVision is an AI-powered developer assistant that analyzes GitHub repositories and helps users understand, explain, and prepare to discuss their projects during interviews.
 
-RepoPrep AI is an AI-powered platform that analyzes any public GitHub repository and helps developers prepare for technical interviews based on their own projects. Instead of generic interview preparation, it generates repository-specific summaries, answers project-related questions, conducts mock interviews, and assists in creating impactful resume descriptions.
-
----
-
-# ✨ Features
-
-### 📂 Repository Analysis
-
-* Clone any public GitHub repository.
-* Scan and process the project structure.
-* Extract relevant source code while ignoring unnecessary files.
-* Build a semantic knowledge base using vector embeddings.
-
-### 📝 AI Repository Summary
-
-* Generate concise project overviews.
-* Explain architecture, technologies, and workflows.
-* Highlight key functionalities automatically.
-
-### 💬 Ask Anything About Your Repository
-
-* Chat with your project using Retrieval-Augmented Generation (RAG).
-* Ask implementation-related questions.
-* Understand complex codebases quickly.
-* Get context-aware answers grounded in repository content.
-
-### 🎤 AI Interviewer
-
-* Conduct mock technical interviews based on your uploaded project.
-* Generate repository-specific interview questions.
-* Evaluate answers and provide constructive feedback.
-
-### 📄 Resume Assistant
-
-* Generate ATS-friendly resume bullet points.
-* Highlight impactful project achievements.
-* Suggest measurable improvements for resume descriptions.
+Instead of manually reading hundreds of files, users simply provide a GitHub repository URL. RepoVision indexes the repository, builds a Retrieval-Augmented Generation (RAG) pipeline, and generates project insights, interview questions, resume bullet points, and an AI-powered Git assistant.
 
 ---
 
-# 🛠 Tech Stack
+## Features
 
-## Frontend
-
-* React (Vite)
-* JavaScript
-* HTML5
-* CSS3
-
-## Backend
-
-* FastAPI
-* Python
-
-## AI & Machine Learning
-
-* LangChain
-* Groq LLM (Llama 3.3 70B Versatile)
-* HuggingFace Embeddings
-* Chroma Vector Database
-
-## Other Tools
-
-* GitPython
-* Recursive Character Text Splitter
-* CORS Middleware
+### Repository Analysis
+- Clone and analyze any public GitHub repository
+- Scan source files while ignoring unnecessary directories
+- Generate AI summaries for individual files
+- Produce a structured project dashboard including:
+  - Project objective
+  - Programming languages
+  - Frameworks & libraries
+  - Major features
+  - APIs
+  - Database
+  - Authentication
+  - Deployment
+  - Overall architecture
 
 ---
 
-# ⚙️ How It Works
+### Git Assistant (RAG Chat)
 
-1. User submits a GitHub repository URL.
-2. Backend clones the repository locally.
-3. Source files are scanned while excluding unnecessary directories.
-4. Files are converted into LangChain documents.
-5. Documents are split into semantic chunks.
-6. HuggingFace Embeddings generate vector representations.
-7. Chroma stores the embeddings.
-8. A Retrieval-Augmented Generation (RAG) pipeline answers user queries using the repository context.
-9. Groq LLM generates summaries, interview questions, and resume suggestions.
+- Ask natural language questions about the repository
+- Uses Retrieval-Augmented Generation (RAG)
+- Retrieves only relevant code before sending context to the LLM
+- Provides repository-aware answers instead of generic AI responses
 
----
+Example:
 
-# 📁 Project Structure
+> How does authentication work?
 
-```
-RepoPrep-AI
-│
-├── backend
-│   ├── app
-│   │   ├── api
-│   │   ├── core
-│   │   ├── repository
-│   │   ├── rag
-│   │   ├── prompts
-│   │   ├── schemas
-│   │   └── main.py
-│   │
-│   ├── chroma_db
-│   └── requirements.txt
-│
-├── frontend
-│   ├── src
-│   ├── public
-│   └── package.json
-│
-└── README.md
-```
+> Explain the vector store implementation.
+
+> Which file creates embeddings?
 
 ---
 
-# 🚀 Installation
+### Interview Guide
 
-## Clone the repository
+Automatically generates interview questions based on repository domains such as:
 
-```bash
-git clone https://github.com/yourusername/repoprep-ai.git
-cd repoprep-ai
-```
+- Backend
+- Frontend
+- Machine Learning
+- Deep Learning
+- NLP
+- Database
+- API Development
+- DevOps
+- Computer Vision
+- Data Structures & Algorithms
 
-## Backend Setup
+Each domain includes:
 
-```bash
-cd backend
-
-python -m venv venv
-
-# Windows
-venv\Scripts\activate
-
-# Linux/Mac
-source venv/bin/activate
-
-pip install -r requirements.txt
-```
-
-Create a `.env` file inside the backend directory:
-
-```env
-GROQ_API_KEY=your_groq_api_key
-```
-
-Run the backend:
-
-```bash
-uvicorn app.main:app --reload
-```
+- Technical interview questions
+- Ideal answers
+- Follow-up questions
+- Common mistakes
+- Related repository files
 
 ---
 
-## Frontend Setup
+### Resume Builder
 
-```bash
-cd frontend
+Generates ATS-friendly resume content directly from the repository.
 
-npm install
+Includes:
 
-npm run dev
-```
+- Project description
+- Professional resume bullet points
+- Technologies used
+
+The generated content is based entirely on the repository without inventing unsupported technologies or features.
 
 ---
 
-# 📸 Workflow
+## Tech Stack
+
+### Backend
+
+- FastAPI
+- Python
+- LangChain
+- ChromaDB
+- GitPython
+- Pydantic
+
+### AI
+
+- Groq API
+- Llama 3.3 70B Versatile
+- HuggingFace Embeddings
+- Sentence Transformers
+
+### Frontend
+
+- HTML
+- CSS
+- JavaScript
+
+---
+
+## Project Architecture
 
 ```
 GitHub Repository
         │
         ▼
-Repository Cloning
+Clone Repository
         │
         ▼
-Code Scanner
+Repository Scanner
         │
         ▼
-Document Loader
+File Reader
         │
         ▼
-Text Chunking
+AI File Summaries
+        │
+        ▼
+Project Summary
+        │
+        ▼
+Chunk Generation
         │
         ▼
 Embeddings
@@ -188,50 +137,141 @@ Embeddings
 Chroma Vector Store
         │
         ▼
-Retriever (MMR)
+MMR Retriever
         │
         ▼
-Groq LLM
-        │
-        ▼
-Summary • Q&A • Interview • Resume Assistant
+──────────────────────────────────────
+│ Dashboard
+│ Git Assistant
+│ Interview Guide
+│ Resume Builder
+──────────────────────────────────────
 ```
 
 ---
 
-# 💡 Future Improvements
+## Folder Structure
 
-* Support private GitHub repositories.
-* Multi-repository knowledge base.
-* Voice-based mock interviews.
-* PDF interview reports.
-* Repository comparison.
-* Team collaboration dashboard.
-* Conversation history.
-* Code visualization and dependency graphs.
-
----
-
-# 🤝 Contributing
-
-Contributions are welcome!
-
-1. Fork the repository.
-2. Create a new feature branch.
-3. Commit your changes.
-4. Push to your branch.
-5. Open a Pull Request.
-
----
-
-# 📜 License
-
-This project is licensed under the MIT License.
+```
+backend/
+│
+├── api/
+├── core/
+├── database/
+├── models/
+├── prompts/
+├── rag/
+├── repository/
+├── schemas/
+├── services/
+│
+frontend/
+│
+├── app.html
+├── app.css
+└── app.js
+```
 
 ---
 
-# 👩‍💻 Author
+## Installation
+
+### Clone the repository
+
+```bash
+git clone https://github.com/yourusername/RepoVision.git
+```
+
+---
+
+### Backend
+
+```bash
+cd backend
+
+python -m venv venv
+
+venv\Scripts\activate
+
+pip install -r requirements.txt
+```
+
+Create a `.env` file:
+
+```
+GROQ_API_KEY=YOUR_GROQ_API_KEY
+```
+
+Run the backend
+
+```bash
+uvicorn app.main:app --reload
+```
+
+Backend runs at
+
+```
+http://localhost:8000
+```
+
+---
+
+### Frontend
+
+Open the frontend directory.
+
+Run
+
+```bash
+python -m http.server 5174
+```
+
+Open
+
+```
+http://localhost:5174/app.html
+```
+
+---
+
+## How It Works
+
+1. User enters a GitHub repository URL.
+2. Repository is cloned locally.
+3. Source files are scanned and read.
+4. Files are summarized using an LLM.
+5. Documents are split into chunks.
+6. Chunks are converted into embeddings.
+7. Embeddings are stored in ChromaDB.
+8. An MMR retriever retrieves relevant context.
+9. AI features use repository-aware context to answer questions and generate outputs.
+
+---
+
+## Future Improvements
+
+- GitHub authentication for private repositories
+- PDF resume export
+- Multi-repository support
+- Repository architecture visualization
+- Commit history analysis
+- Code quality insights
+- Pull request summarization
+- Team collaboration support
+
+---
+
+## Author
 
 **Dhanashree Chandekar**
 
-If you found this project useful, consider giving it a ⭐ on GitHub!
+NIT Rourkela  
+Artificial Intelligence Undergraduate
+
+GitHub: https://github.com/dhana07shree
+
+---
+
+## License
+
+This project is licensed under the MIT License.
