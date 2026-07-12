@@ -1,7 +1,6 @@
 from app.services.repository_analysis.file_summary import summarize_document
-from app.repository.ignore import (
-    SUPPORTED_EXTENSIONS
-)
+from app.repository.ignore import SUPPORTED_EXTENSIONS
+
 IMPORTANT_FILES = {
     "README.md",
     "requirements.txt",
@@ -11,13 +10,13 @@ IMPORTANT_FILES = {
     "docker-compose.yml"
 }
 def summarize_repository(documents):
-
+    
     summaries = []
-
+    
     for document in documents:
-
+    
         extension = document.metadata["extension"]
-
+  
         filename = document.metadata["filename"]
 
         if (
@@ -38,6 +37,7 @@ def summarize_repository(documents):
                                  Summary:
 
                                  {summary}
-                                 """)
+                                 """
+                                )
 
     return "\n\n".join(summaries)

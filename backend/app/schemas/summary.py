@@ -1,5 +1,5 @@
 from pydantic import BaseModel
-from typing import List
+from typing import List, Optional
 
 
 class RepositorySummary(BaseModel):
@@ -22,10 +22,10 @@ class RepositorySummary(BaseModel):
 
     apis: List[str]
 
-    database: str
+    database: Optional[str] = None
 
-    authentication: str
-
-    deployment: str
+    authentication: Optional[str] = None
+    
+    deployment: Optional[str] = None
 
     overall_architecture: str

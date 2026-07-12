@@ -1,6 +1,5 @@
 from app.services.repository_analysis.summary_service import generate_summary
 
-
 def generate_dashboard(repository):
 
     summary = repository.summary

@@ -1,4 +1,3 @@
-
 IGNORE_DIRECTORIES = {
     ".git",
     "__pycache__",

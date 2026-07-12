@@ -1,128 +1,296 @@
+
 <!doctype html>
 <html lang="en">
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>RepoPrep AI — Analyze, Prep, Build</title>
-<meta name="description" content="Analyze any GitHub repository: dashboard insights, Git assistant chat, interview guide and auto resume builder." />
+<title>RepoVision — GitHub Repository Coach</title>
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/app.css" />
+
+<link rel="stylesheet" href="/app.css">
 </head>
+
 <body>
-  <aside class="sidebar">
+
+<aside class="sidebar">
+
     <div class="brand">
-      <div class="logo">R</div>
-      <div>
-        <div class="brand-name">RepoVision</div>
-        <div class="brand-sub">GitHub Repository Coach</div>
-      </div>
+        <div class="logo">R</div>
+
+        <div>
+            <div class="brand-name">RepoVision</div>
+            <div class="brand-sub">GitHub Repository Coach</div>
+        </div>
     </div>
 
     <div class="repo-box">
-      <label>Active Repository</label>
-      <div id="activeRepo" class="active-repo">None</div>
+        <label>Active Repository</label>
+        <div id="activeRepo" class="active-repo">None</div>
     </div>
 
     <nav class="nav">
-      <button class="nav-item active" data-view="upload"><span class="i">▲</span> Upload Repo</button>
-      <button class="nav-item" data-view="dashboard"><span class="i">▦</span> Dashboard</button>
-      <button class="nav-item" data-view="chat"><span class="i">◈</span> Git Assistant</button>
-      <button class="nav-item" data-view="interview"><span class="i">✦</span> Interview Guide</button>
-      <button class="nav-item" data-view="resume"><span class="i">≡</span> Resume Builder</button>
+
+        <button class="nav-item active" data-view="upload">
+            <span class="i">▲</span>
+            Upload Repository
+        </button>
+
+        <button class="nav-item" data-view="dashboard">
+            <span class="i">▦</span>
+            Dashboard
+        </button>
+
+        <button class="nav-item" data-view="chat">
+            <span class="i">◈</span>
+            Git Assistant
+        </button>
+
+        <button class="nav-item" data-view="interview">
+            <span class="i">✦</span>
+            Interview Guide
+        </button>
+
+        <button class="nav-item" data-view="resume">
+            <span class="i">≡</span>
+            Resume Builder
+        </button>
+
     </nav>
 
     <div class="sidebar-foot">
-      <label class="api-label">API Base URL</label>
-      <input id="apiBase" type="text" value="http://localhost:8000" />
+
+        <label class="api-label">API Base URL</label>
+
+        <input
+            id="apiBase"
+            type="text"
+            value="http://localhost:8000"
+        />
+
     </div>
-  </aside>
 
-  <main class="main">
-    <!-- UPLOAD -->
-    <section class="view active" id="view-upload">
-      <header class="view-head">
+</aside>
+
+
+<main class="main">
+
+<!-- ====================== Upload ====================== -->
+
+<section class="view active" id="view-upload">
+
+    <header class="view-head">
+
         <h1>Upload a GitHub Repository</h1>
-        <p>Paste a public GitHub URL to index it. All other features will unlock once indexing completes.</p>
-      </header>
-      <div class="card">
+
+        <p>
+            Paste a public GitHub URL to analyze it.
+        </p>
+
+    </header>
+
+    <div class="card upload-card">
+
         <div class="form-row">
-          <input id="githubUrl" type="text" placeholder="https://github.com/user/repository" />
-          <button class="btn primary" id="uploadBtn">Analyze Repository</button>
+
+            <input
+                id="githubUrl"
+                type="text"
+                placeholder="https://github.com/user/repository"
+            >
+
+            <button
+                class="btn primary"
+                id="uploadBtn">
+
+                Analyze Repository
+
+            </button>
+
         </div>
+
         <div id="uploadStatus" class="status"></div>
-        <!-- <div id="uploadResult" class="upload-result hidden">
-          <div class="stat"><span>Repository</span><strong id="urRepo">—</strong></div>
-          <div class="stat"><span>Files</span><strong id="urFiles">—</strong></div>
-          <div class="stat"><span>Chunks</span><strong id="urChunks">—</strong></div>
-          <div class="stat"><span>Interview Domains</span><strong id="urDomains">—</strong></div>
-        </div> -->
-      </div>
 
-      <!-- <div class="feature-grid">
-        <div class="feature"><h3>Dashboard</h3><p>Project overview, architecture, technologies and structure.</p></div>
-        <div class="feature"><h3>Git Assistant</h3><p>Ask any question about the codebase — powered by RAG.</p></div>
-        <div class="feature"><h3>Interview Guide</h3><p>Auto-generated interview Q&A per domain.</p></div>
-        <div class="feature"><h3>Resume Builder</h3><p>Turn the repo into resume-ready bullet points.</p></div>
-      </div> -->
-    </section>
+    </div>
 
-    <!-- DASHBOARD -->
-    <section class="view" id="view-dashboard">
-      <header class="view-head">
-        <h1>Repository Dashboard</h1>
-        <p>A summary of the active repository.</p>
-      </header>
-      <div id="dashboardBody" class="card"><div class="empty">Upload a repository to see the dashboard.</div></div>
-    </section>
+</section>
 
-    <!-- CHAT -->
-    <section class="view" id="view-chat">
-      <header class="view-head">
-        <h1>Git Assistant</h1>
-        <p>Ask questions about the repository.</p>
-      </header>
-      <div class="chat-card">
-        <div id="chatLog" class="chat-log">
-          <div class="msg bot">Hi — index a repo, then ask me anything about it.</div>
-        </div>
-        <form id="chatForm" class="chat-input">
-          <input id="chatInput" type="text" placeholder="e.g. What does the retriever module do?" autocomplete="off" />
-          <button class="btn primary" type="submit">Send</button>
-        </form>
-      </div>
-    </section>
 
-    <!-- INTERVIEW -->
-    <section class="view" id="view-interview">
-      <header class="view-head">
-        <h1>Interview Guide</h1>
-        <p>Pick a domain to generate interview questions and ideal answers.</p>
-      </header>
-      <div class="card">
-        <div class="form-row">
-          <select id="domainSelect"><option value="">— Select domain —</option></select>
-          <button class="btn primary" id="genQuestionsBtn">Generate Questions</button>
-        </div>
-        <div id="interviewBody" class="interview-body"></div>
-      </div>
-    </section>
+<!-- ====================== Dashboard ====================== -->
 
-    <!-- RESUME -->
-    <section class="view" id="view-resume">
-      <header class="view-head">
-        <h1>Resume Builder</h1>
-        <p>Generate resume-ready content from the repository.</p>
-      </header>
-      <div class="card">
-        <button class="btn primary" id="buildResumeBtn">Build Resume</button>
-        <div id="resumeBody" class="resume-body"></div>
-      </div>
-    </section>
-  </main>
+<section class="view" id="view-dashboard">
 
-  <div id="toast" class="toast"></div>
-  <script src="/app.js"></script>
+<header class="view-head">
+
+<h1>Repository Dashboard</h1>
+
+<p>
+A summary of the active repository.
+</p>
+
+</header>
+
+<div id="dashboardBody" class="card">
+
+<div class="empty">
+
+Upload a repository to see the dashboard.
+
+</div>
+
+</div>
+
+</section>
+
+
+
+<!-- ====================== Chat ====================== -->
+
+<section class="view" id="view-chat">
+
+<header class="view-head">
+
+<h1>Git Assistant</h1>
+
+<p>
+
+Ask your queries about the repository.
+
+</p>
+
+</header>
+
+<div class="chat-card">
+
+<div id="chatLog" class="chat-log">
+
+<div class="msg bot">
+
+Hi — Upload a repository first, then ask me anything.
+
+</div>
+
+</div>
+
+<form id="chatForm" class="chat-input">
+
+<input
+id="chatInput"
+type="text"
+placeholder="Ask anything about the repository..."
+autocomplete="off">
+
+<button class="btn primary">
+
+Send
+
+</button>
+
+</form>
+
+</div>
+
+</section>
+
+
+
+<!-- ====================== Interview ====================== -->
+
+<section class="view" id="view-interview">
+
+<header class="view-head">
+
+<h1>Interview Guide</h1>
+
+<p>
+
+Generate repository-specific interview questions.
+
+</p>
+
+</header>
+
+<div class="card">
+
+<div class="form-row">
+
+<select id="domainSelect">
+
+<option value="">
+
+Select Domain
+
+</option>
+
+</select>
+
+<button
+id="genQuestionsBtn"
+class="btn primary">
+
+Generate Questions
+
+</button>
+
+</div>
+
+<div
+id="interviewBody"
+class="interview-body">
+
+</div>
+
+</div>
+
+</section>
+
+
+
+<!-- ====================== Resume ====================== -->
+
+<section class="view" id="view-resume">
+
+<header class="view-head">
+
+<h1>Resume Builder</h1>
+
+<p>
+
+Generate ATS-ready resume content.
+
+</p>
+
+</header>
+
+<div class="card">
+
+<button
+id="buildResumeBtn"
+class="btn primaryy">
+
+Build Resume
+
+</button>
+
+<div
+id="resumeBody"
+class="resume-body">
+
+</div>
+
+</div>
+
+</section>
+
+</main>
+
+<div id="toast" class="toast"></div>
+
+<script src="/app.js"></script>
+
 </body>
+
 </html>

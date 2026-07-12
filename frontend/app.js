@@ -77,24 +77,30 @@ $("#uploadBtn").addEventListener("click", async () => {
   status.textContent = "Cloning, indexing and embedding — this may take a minute…";
   status.className = "status";
   try {
-    const data = await api("/upload", { method: "POST", body: JSON.stringify({ github_url: url }) });
+    const data = await api("/upload", {
+        method: "POST",
+        body: JSON.stringify({
+            github_url: url
+        })
+    });
+
     setRepo(data.repository);
-    $("#urRepo").textContent = data.repository;
-    $("#urFiles").textContent = data.files;
-    $("#urChunks").textContent = data.chunks;
-    $("#urDomains").textContent = (data.interview_domains || []).length;
-    $("#uploadResult").classList.remove("hidden");
+
     status.textContent = "Repository indexed successfully.";
     status.className = "status ok";
+
     toast("Repository ready.", "ok");
-  } catch (e) {
+}
+catch (e) {
     status.textContent = "Failed: " + e.message;
     status.className = "status err";
     toast(e.message, "err");
-  } finally {
+}
+finally {
     btn.disabled = false;
-  }
+}
 });
+
 
 /* ---------- DASHBOARD ---------- */
 async function loadDashboard() {

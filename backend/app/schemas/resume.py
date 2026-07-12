@@ -1,5 +1,5 @@
 from pydantic import BaseModel
-
+from typing import List
 
 class ResumeRequest(BaseModel):
 
@@ -12,6 +12,6 @@ class ResumeResponse(BaseModel):
 
     project_description: str
 
-    resume_points: list[str]
+    resume_points: List[str]
 
-    technologies: list[str]
+    technologies: List[str]

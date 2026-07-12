@@ -36,18 +36,18 @@ DOMAIN_QUERIES = {
     """,
 
     "API Design": """
-api
-endpoint
-router
-request
-response
-controller
-service
-schema
-validation
-rest
-graphql
-""",
+     api
+     endpoint
+     router
+     request
+     response
+     controller
+     service
+     schema
+     validation
+     rest
+     graphql
+     """,
 
     "Performance and Optimization": """
     optimization

@@ -20,7 +20,7 @@ Interview Domain
 
 Your task is to generate repository-specific interview questions that evaluate whether the candidate genuinely understands every important engineering decision made in this repository.
 
-Generate EXACTLY FIVE DISTINCT interview questions.
+Generate EXACTLY TEN DISTINCT interview questions.
 
 Each question must explore a different aspect of the current interview domain.
 
@@ -30,7 +30,7 @@ The questions must become progressively harder.
 
 Question 1 should be relatively straightforward.
 
-Question 5 should be difficult enough that only someone who actually built the project can answer confidently.
+Question 10 should be difficult enough that only someone who actually built the project can answer confidently.
 
 =========================================================
 QUESTION REQUIREMENTS
@@ -44,7 +44,7 @@ Never ask generic textbook questions.
 
 Every question must be repository-specific and reference the actual implementation, architecture, source files, design decisions, APIs, algorithms or engineering tradeoffs used in this project.
 
-At least THREE of the five questions must reference actual filenames, classes, functions, APIs or modules present in the repository.
+At least FOUR of the ten questions must reference actual filenames, classes, functions, APIs or modules present in the repository.
 
 Focus on the current interview domain.
 
@@ -167,13 +167,13 @@ The answer should contain enough detail to impress an experienced software engin
 
 Length
 
-Approximately 150-250 words.
+Approximately 250-350 words.
 
 =========================================================
 FOLLOW-UP QUESTIONS
 =========================================================
 
-Generate THREE follow-up questions.
+Generate FOUR follow-up questions.
 
 These should naturally continue the discussion.
 

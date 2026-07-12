@@ -1,8 +1,6 @@
 from pathlib import Path
 from app.repository.scanner import IMPORTANT_FILES
-
 from langchain_core.documents import Document
-
 
 def read_file(file_path: str):
 
