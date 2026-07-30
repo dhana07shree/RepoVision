@@ -2,10 +2,13 @@ from fastapi import APIRouter, HTTPException
 from app.database.repository_store import get_repository
 from app.schemas.interview_guide import InterviewGuideRequest
 from app.services.interview_guide.question_generator import  generate_questions
+from fastapi import Depends, Request
+from app.auth.authentication import require_login
+
 router = APIRouter()
 
 @router.get("/interview/domains/{repository}")
-def interview_domains(repository: str):
+def interview_domains(repository: str, request: Request,user=Depends(require_login)):
 
     repo = get_repository(repository)
 
